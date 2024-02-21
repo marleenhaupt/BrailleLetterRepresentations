@@ -1,0 +1,150 @@
+```{r setup_raincloud, include = TRUE, echo = TRUE}
+# required packages 
+packages_to_install <- c("cowplot", "tidyverse","gridExtra", "readr", "ggplot2", "dplyr")
+
+# install and load required packages
+for (package in packages_to_install) {
+  if (!requireNamespace(package, quietly = TRUE)) {
+    install.packages(package, dependencies = TRUE)
+  }
+  library(package, character.only = TRUE)
+}
+
+#color blind friendly color palette
+custom_cmap <- c("#482576","#2d718e","#1f968b","#3dbc74","#95d840","#c43c4e","#e55c30","#f8870e","#fbba1f","#f1ed71")
+```
+
+##Plot average pairwise decodings per ROI: within-hand
+
+```{r setup_raincloud, include = TRUE, echo = TRUE}
+code_dir <- getwd()
+directory <- file.path(dirname(code_dir), "output")
+file <- "allroi_within.csv"
+  
+## Read in and prepare raw data
+data_raw <- read.table(paste(directory,file, sep='/'), header = FALSE, sep=",", dec=".",  stringsAsFactors=FALSE)
+
+names(data_raw) <- c("EVC","V4","LOC","LFA","VWFA","S1","S2","aIPS","pIPS","Insula")
+data_raw$ID <- 1:15
+
+data_long <- gather(data_raw,roi,acc,EVC:Insula, factor_key=TRUE)
+
+names(data_long) <- c("ID","roi","acc")
+
+data_long %>% group_by(roi) %>% dplyr::summarise(mean(acc))
+
+#whole group plot
+avg_plot <- ggplot(data_long,aes(x=roi,y=acc, colour = roi, fill=roi))+
+  stat_summary(fun=mean, geom="bar",width = .8, size=2, fill="white")+
+  geom_point(position = position_jitter(width = .15, height = 0), size = 5,  alpha=0.5)+
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar",width = 0.1, size = 2)+
+  theme_cowplot()+guides(fill = FALSE, colour = FALSE) +
+  theme(axis.line.x = element_line(size = 2),
+      axis.line.y = element_line(size = 2),
+      axis.ticks.x=element_blank(),
+      axis.ticks.y=element_blank())+
+  theme(axis.title.x = element_text(margin = unit(c(5, 0, 0, 0), "mm"), size=48,face="bold"),
+      axis.title.y = element_text(margin = unit(c(0, 5, 0, 0), "mm"),size=48,face="bold")) +
+  theme(axis.text.x = element_text(size=48, angle = 90, vjust = 0.5, hjust=1,face="bold")) +
+  theme(axis.text.y = element_text(size=48,face="bold")) +
+  theme(strip.text.x = element_text(size = 40)) +
+  theme(plot.title = element_text(size=48,hjust=0.5))+
+  theme(text=element_text(family="Roboto"))+
+  scale_y_continuous(limits=c(-5, 20),breaks=seq(0,20,10))+
+  xlab("Regions of interest")+
+  ylab("Decoding accuracy (%)")+
+  scale_color_manual(values = custom_cmap)+
+  scale_fill_manual(values = custom_cmap)+
+  ggtitle("ROI decoding within-hand")+
+  ggsave(path=directory,file='decoding_roi_within.png', width = 15, height = 15)
+```
+
+##Plot average pairwise decodings per ROI: across-hand
+
+```{r setup_raincloud, include = TRUE, echo = TRUE}
+code_dir <- getwd()
+directory <- file.path(dirname(code_dir), "output")
+file <- "allroi_across.csv"
+  
+## Read in and prepare raw data
+data_raw <- read.table(paste(directory,file, sep='/'), header = FALSE, sep=",", dec=".",  stringsAsFactors=FALSE)
+
+names(data_raw) <- c("EVC","V4","LOC","LFA","VWFA","S1","S2","aIPS","pIPS","Insula")
+data_raw$ID <- 1:15
+
+data_long <- gather(data_raw,roi,acc,EVC:Insula, factor_key=TRUE)
+
+names(data_long) <- c("ID","roi","acc")
+
+data_long %>% group_by(roi) %>% dplyr::summarise(mean(acc))
+
+#whole group plot
+avg_plot <- ggplot(data_long,aes(x=roi,y=acc, colour = roi, fill=roi))+
+  stat_summary(fun=mean, geom="bar",width = .8, size=2, fill="white")+
+  geom_point(position = position_jitter(width = .15, height = 0), size = 5,  alpha=0.5)+
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar",width = 0.1, size = 2)+
+  theme_cowplot()+guides(fill = FALSE, colour = FALSE) +
+  theme(axis.line.x = element_line(size = 2),
+      axis.line.y = element_line(size = 2),
+      axis.ticks.x=element_blank(),
+      axis.ticks.y=element_blank())+
+  theme(axis.title.x = element_text(margin = unit(c(5, 0, 0, 0), "mm"), size=48,face="bold"),
+      axis.title.y = element_text(margin = unit(c(0, 5, 0, 0), "mm"),size=48,face="bold")) +
+  theme(axis.text.x = element_text(size=48, angle = 90, vjust = 0.5, hjust=1,face="bold")) +
+  theme(axis.text.y = element_text(size=48,face="bold")) +
+  theme(strip.text.x = element_text(size = 40)) +
+  theme(plot.title = element_text(size=48,hjust=0.5))+
+  theme(text=element_text(family="Roboto"))+
+  scale_y_continuous(limits=c(-5, 20),breaks=seq(0,20,10))+
+  xlab("Regions of interest")+
+  ylab("Decoding accuracy (%)")+
+  scale_color_manual(values = custom_cmap)+
+  scale_fill_manual(values = custom_cmap)+
+  ggtitle("ROI decoding across-hand")+
+  ggsave(path=directory,file='decoding_roi_across.png', width = 15, height = 15)
+```
+
+##Plot average pairwise decodings per ROI: difference
+
+```{r setup_raincloud, include = TRUE, echo = TRUE}
+code_dir <- getwd()
+directory <- file.path(dirname(code_dir), "output")
+file <- "allroi_diff.csv"
+  
+## Read in and prepare raw data
+data_raw <- read.table(paste(directory,file, sep='/'), header = FALSE, sep=",", dec=".",  stringsAsFactors=FALSE)
+
+names(data_raw) <- c("EVC","V4","LOC","LFA","VWFA","S1","S2","aIPS","pIPS","Insula")
+data_raw$ID <- 1:15
+
+data_long <- gather(data_raw,roi,acc,EVC:Insula, factor_key=TRUE)
+
+names(data_long) <- c("ID","roi","acc")
+
+data_long %>% group_by(roi) %>% dplyr::summarise(mean(acc))
+
+#whole group plot
+avg_plot <- ggplot(data_long,aes(x=roi,y=acc, colour = roi, fill=roi))+
+  stat_summary(fun=mean, geom="bar",width = .8, size=2, fill="white")+
+  geom_point(position = position_jitter(width = .15, height = 0), size = 5,  alpha=0.5)+
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar",width = 0.1, size = 2)+
+  theme_cowplot()+guides(fill = FALSE, colour = FALSE) +
+  theme(axis.line.x = element_line(size = 2),
+      axis.line.y = element_line(size = 2),
+      axis.ticks.x=element_blank(),
+      axis.ticks.y=element_blank())+
+  theme(axis.title.x = element_text(margin = unit(c(5, 0, 0, 0), "mm"), size=48,face="bold"),
+      axis.title.y = element_text(margin = unit(c(0, 5, 0, 0), "mm"),size=48,face="bold")) +
+  theme(axis.text.x = element_text(size=48, angle = 90, vjust = 0.5, hjust=1,face="bold")) +
+  theme(axis.text.y = element_text(size=48,face="bold")) +
+  theme(strip.text.x = element_text(size = 40)) +
+  theme(plot.title = element_text(size=48,hjust=0.5))+
+  theme(text=element_text(family="Roboto"))+
+  scale_y_continuous(limits=c(-5, 20),breaks=seq(0,20,10))+
+  xlab("Regions of interest")+
+  ylab("Decoding accuracy (%)")+
+  scale_color_manual(values = custom_cmap)+
+  scale_fill_manual(values = custom_cmap)+
+  ggtitle("ROI decoding difference")+
+  ggsave(path=directory,file='decoding_roi_diff.png', width = 15, height = 15)
+```
