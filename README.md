@@ -6,6 +6,11 @@ All analyses have been tested using Matlab R2020b on MacOS Big Sur version 11.5.
 
 The preprocessed data required for these analyses can be downloaded [here](https://osf.io/a64hp/). Please make sure the folders fMRI_preprocessed and EEG_preprocessed are located in the /data folder before starting the analyses.
 
+You can clone this repository to local using:
+```sh
+git clone https://github.com/marleenhaupt/BrailleLetterRepresentations.git
+```
+
 ## Requirements
 
 - Matlab
@@ -13,6 +18,12 @@ The preprocessed data required for these analyses can be downloaded [here](https
 - [R](https://cran.r-project.org/) for plotting
 
 ## Analyses
+
+Please navigate to the code folder and then start running the analysis of interest.
+
+```sh
+cd ./code
+```
 
 ### Decode Braille letter representations in space (runtime: ~2min) 
    
