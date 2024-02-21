@@ -10,16 +10,17 @@ The preprocessed data required for these analyses can be downloaded [here](https
 
 - Matlab
 - [LIBSVM toolbox](https://www.csie.ntu.edu.tw/~cjlin/libsvm/) which is provided under /toolboxes so that no installation is required
+- [R](https://cran.r-project.org/) for plotting
 
 ## Analyses
 
-### Decode Braille letter representations in space (runtime: ~ min) 
+### Decode Braille letter representations in space (runtime: ~2min) 
    
 ```sh
 fmri_analysis.m
 ```
 
-### Decode Braille letter representations in time (runtime: ~ min) 
+### Decode Braille letter representations in time (runtime: ~10min) 
 
 Fast parameters (default): The fast parameters downsample the EEG time course with a 10ms resolution and 5 permutations. 
 
@@ -28,13 +29,13 @@ Original parameters: 100 permutations with 1ms resolution.
 ```sh
 eeg_analysis.m
 ```
-### Relate Braille letter representations in space to similarity ratings (runtime: ~ min) 
+### Relate Braille letter representations in space to similarity ratings (runtime: <1min) 
 
 ```sh
 rsa_fmri_beh.m
 ```
 
-### Relate Braille letter representations in time to similarity ratings (runtime: ~ min) 
+### Relate Braille letter representations in time to similarity ratings (runtime: <1min) 
 
 Fast parameters (default): The fast parameters downsample the EEG time course with a 10ms resolution and 5 permutations. 
 
@@ -43,3 +44,5 @@ Original parameters: 100 permutations with 1ms resolution.
 ```sh
 rsa_eeg_beh.m
 ```
+
+Please be aware that results can differ because of the random assignment of trials to training and testing bins.
