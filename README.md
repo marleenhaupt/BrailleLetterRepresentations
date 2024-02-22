@@ -4,7 +4,7 @@ This repository containes code for the manuscript ["The transformation of sensor
 
 The code has been tested using Matlab R2020b on MacOS Big Sur 11.5.2, Matlab R2021a on CentOS 7 and Matlab2023b on MacOS Sonoma 14.2.1.
 
-The preprocessed data required for these analyses can be downloaded [here](https://osf.io/a64hp/). Please make sure the folders fMRI_preprocessed and EEG_preprocessed are located in the /data folder before starting the analyses.
+The preprocessed data required for these analyses can be downloaded [here](https://osf.io/a64hp/). Please download the folders fMRI_preprocessed and EEG_preprocessed to the /data folder before starting the analyses.
 
 You can clone this repository to local using:
 ```sh
